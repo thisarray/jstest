@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test the JavaScript assert methods work</title>
+  <script src="test.js"></script>
+  <style type="text/css" media="screen">
+body {
+  background-color: white;
+  color: black;
+}
+  </style>
+</head>
+
+<body>
+
+<h1>Test the JavaScript assert methods work</h1>
+
+<script>
+const a = [1, 2, 3];
+const b = {here: {is: "an"}, object: 2};
+let c;
+
+function thrower() {
+  throw new TypeError('TypeError');
+}
+
+function nonthrower() {
+  return false;
+}
+
+function test_boolean_success() {
+  test.assertTrue(true);
+  test.assertTrue(1);
+  test.assertFalse(false);
+  test.assertFalse(0);
+}
+
+function test_boolean_fail() {
+  test.assertTrue(false);
+  test.assertTrue(0);
+  test.assertFalse(true);
+  test.assertFalse(1);
+}
+
+function test_is_success() {
+  test.assertIsNot(c, null);
+  test.assertIs(c, undefined);
+  test.assertIs(c, c);
+  test.assertIs(0, 0);
+  test.assertIs(1, 1);
+  test.assertIs('foo', 'foo');
+  test.assertIsNot('foo', 'bar');
+}
+
+function test_is_fail() {
+  test.assertIs(c, null);
+  test.assertIsNot(c, undefined);
+  test.assertIsNot(c, c);
+  test.assertIsNot(0, 0);
+  test.assertIsNot(1, 1);
+  test.assertIsNot('foo', 'foo');
+}
+
+function test_equal_success() {
+  test.assertEqual((1 + 2), 3);
+  test.assertEqual(0 + 1, 1);
+  test.assertEqual((0 * 10), 0);
+  test.assertEqual((5 * 8), 40);
+  test.assertEqual('foo', 'foo');
+}
+
+function test_equal_fail() {
+  test.assertEqual((1 + 1), 3);
+  test.assertEqual('foo', 'bar');
+}
+
+function test_object_success() {
+  test.assertEqual(a, a);
+  test.assertEqual(a, [1, 2, 3]);
+  test.assertEqual(b, b);
+  test.assertEqual(b, {here: {is: "an"}, object: 2});
+}
+
+function test_object_fail() {
+  test.assertEqual(a, b);
+  test.assertEqual(a, [4, 5, 6]);
+  test.assertEqual(a, {here: 1, object: 2});
+  test.assertEqual(b, {here: 1, object: 2});
+  test.assertEqual(b, [4, 5, 6]);
+  test.assertEqual(b, a);
+}
+
+function test_raises_success() {
+  test.assertRaises(TypeError, thrower);
+  test.assertRaises(TypeError, thrower, 'foo');
+  test.assertRaises(TypeError, thrower, 1, 2);
+}
+
+function test_raises_fail() {
+  test.assertRaises(RangeError, thrower);
+  test.assertRaises(RangeError, thrower, 'foo');
+  test.assertRaises(RangeError, thrower, 1, 2);
+  test.assertRaises(TypeError, nonthrower);
+  test.assertRaises(TypeError, nonthrower, 'foo');
+  test.assertRaises(TypeError, nonthrower, 1, 2);
+}
+
+test.main();
+</script>
+</body>
+
+</html>
