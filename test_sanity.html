@@ -22,6 +22,7 @@ body {
 const a = [1, 2, 3];
 const b = {here: {is: "an"}, object: 2};
 let c;
+const d = [4, b, a];
 
 function thrower() {
   throw new TypeError('TypeError');
@@ -36,6 +37,9 @@ function test_boolean_success() {
   test.assertTrue(1);
   test.assertFalse(false);
   test.assertFalse(0);
+
+  test.assertTrue(!nonthrower());
+  test.assertFalse(nonthrower());
 }
 
 function test_boolean_fail() {
@@ -43,28 +47,60 @@ function test_boolean_fail() {
   test.assertTrue(0);
   test.assertFalse(true);
   test.assertFalse(1);
+
+  test.assertTrue(nonthrower());
+  test.assertFalse(!nonthrower());
 }
 
 function test_is_success() {
   test.assertIsNot(c, null);
   test.assertIs(c, undefined);
   test.assertIs(c, c);
+  test.assertIs(false, false);
+  test.assertIs(true, true);
   test.assertIs(0, 0);
   test.assertIs(1, 1);
   test.assertIs('foo', 'foo');
+
+  test.assertIs(nonthrower(), false);
+  test.assertIs(false, nonthrower());
+
+  test.assertIsNot(false, true);
+  test.assertIsNot(true, false);
+  test.assertIsNot(0, 1);
+  test.assertIsNot(1, 0);
   test.assertIsNot('foo', 'bar');
+
+  test.assertIsNot(nonthrower(), true);
+  test.assertIsNot(true, nonthrower());
 }
 
 function test_is_fail() {
   test.assertIs(c, null);
   test.assertIsNot(c, undefined);
   test.assertIsNot(c, c);
+  test.assertIsNot(false, false);
+  test.assertIsNot(true, true);
   test.assertIsNot(0, 0);
   test.assertIsNot(1, 1);
   test.assertIsNot('foo', 'foo');
+
+  test.assertIs(nonthrower(), true);
+  test.assertIs(true, nonthrower());
+
+  test.assertIs(false, true);
+  test.assertIs(true, false);
+  test.assertIs(0, 1);
+  test.assertIs(1, 0);
+  test.assertIs('foo', 'bar');
+
+  test.assertIsNot(nonthrower(), false);
+  test.assertIsNot(false, nonthrower());
 }
 
 function test_equal_success() {
+  test.assertEqual(true, true);
+  test.assertEqual(false, false);
   test.assertEqual((1 + 2), 3);
   test.assertEqual(0 + 1, 1);
   test.assertEqual((0 * 10), 0);
@@ -73,6 +109,8 @@ function test_equal_success() {
 }
 
 function test_equal_fail() {
+  test.assertEqual(false, true);
+  test.assertEqual(true, false);
   test.assertEqual((1 + 1), 3);
   test.assertEqual('foo', 'bar');
 }
@@ -82,6 +120,9 @@ function test_object_success() {
   test.assertEqual(a, [1, 2, 3]);
   test.assertEqual(b, b);
   test.assertEqual(b, {here: {is: "an"}, object: 2});
+  test.assertEqual(d, d);
+  test.assertEqual(d, [4, {here: {is: "an"}, object: 2}, [1, 2, 3]]);
+  test.assertEqual(d, [4, b, a]);
 }
 
 function test_object_fail() {
