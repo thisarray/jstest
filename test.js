@@ -17,7 +17,9 @@ const test = (function () {
     }
     for (const key of firstKeys) {
       if (secondKeys.includes(key)) {
-        return deepEqual(first[key], second[key]);
+        if (!deepEqual(first[key], second[key])) {
+          return false;
+        }
       }
       else {
         return false;
