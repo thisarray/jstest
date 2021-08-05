@@ -134,6 +134,27 @@ function test_object_fail() {
   test.assertEqual(b, a);
 }
 
+function test_almost_success() {
+  test.assertAlmostEqual(1, 1);
+  test.assertAlmostEqual(1, 1.0);
+  test.assertAlmostEqual(1.0, 1);
+  test.assertAlmostEqual(1.0, 1.0);
+  test.assertAlmostEqual(42, 42);
+  test.assertAlmostEqual(42, 42.0);
+  test.assertAlmostEqual(42.0, 42);
+  test.assertAlmostEqual(42.0, 42.0);
+  test.assertAlmostEqual(3.14, 3.14);
+  test.assertAlmostEqual(3.1415926535, 3.1415927);
+}
+
+function test_almost_fail() {
+  test.assertAlmostEqual('foobar', 42);
+  test.assertAlmostEqual(1, 'foobar');
+  test.assertAlmostEqual('foo', 'bar');
+  test.assertAlmostEqual(1, 2);
+  test.assertAlmostEqual(42, 3.14);
+}
+
 function test_raises_success() {
   test.assertRaises(TypeError, thrower);
   test.assertRaises(TypeError, thrower, 'foo');
